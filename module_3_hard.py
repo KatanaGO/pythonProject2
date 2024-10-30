@@ -1,19 +1,18 @@
 def calculate_structure_sum(data):
     total_sum = 0  # Переменная для хранения итоговой суммы
 
-    # Обрабатываем каждый элемент в data
-    for item in data:
-        if isinstance(item, (int, float)):  # Если элемент число
-            total_sum += item
-        elif isinstance(item, str):  # Если элемент строка
-            total_sum += len(item)
-        elif isinstance(item, (list, tuple, set)):  # Если элемент коллекция
-            total_sum += calculate_structure_sum(item)  # Рекурсивный вызов
-        elif isinstance(item, dict):  # Если элемент словарь
-            for key, value in item.items():
-                if isinstance(key, str):
-                    total_sum += len(key)  # Добавляем длину ключа
-                total_sum += calculate_structure_sum([value])  # Рекурсивный вызов для значения
+    # Проверяем каждый элемент
+    if isinstance(data, (int, float)):  # Если элемент - число
+        total_sum += data
+    elif isinstance(data, str):  # Если элемент - строка
+        total_sum += len(data)
+    elif isinstance(data, (list, tuple, set)):  # Если элемент - коллекция
+        for item in data:
+            total_sum += calculate_structure_sum(item)  # Рекурсивный вызов для каждого элемента
+    elif isinstance(data, dict):  # Если элемент - словарь
+        for key, value in data.items():
+            total_sum += calculate_structure_sum(key)  # Рекурсивный вызов для ключа
+            total_sum += calculate_structure_sum(value)  # Рекурсивный вызов для значения
 
     return total_sum  # Возвращаем итоговую сумму
 
@@ -28,4 +27,4 @@ data_structure = [
 
 # Вызов функции
 result = calculate_structure_sum(data_structure)
-print(result)  # Вывод: 99
+print(result)  # Ожидаемый вывод: 99
